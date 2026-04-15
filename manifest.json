@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "GPX Route Exporter",
+  "version": "1.0.0",
+  "description": "Export Google Maps routing results to GPX format",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "icons": {
+    "16": "src/icons/icon-16.png",
+    "48": "src/icons/icon-48.png",
+    "128": "src/icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_icon": "src/icons/icon-128.png"
+  },
+  "host_permissions": [
+    "https://www.google.com/maps/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.google.com/maps/*"],
+      "js": ["src/waypoint.js", "src/route-extractor.js", "src/content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

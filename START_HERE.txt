@@ -1,0 +1,262 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║              GPX ROUTE EXPORTER - CHROME EXTENSION                         ║
+║                                                                            ║
+║                          START HERE                                        ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+WHAT IS THIS?
+═════════════════════════════════════════════════════════════════════════════
+
+A Chrome extension that exports Google Maps routing results as GPX files
+(GPX is a standard format for GPS/navigation devices).
+
+Converted from Java (Main.java) to a fully functional Chrome extension.
+
+
+QUICK START (5 MINUTES)
+═════════════════════════════════════════════════════════════════════════════
+
+1. BUILD
+   $ cd ~/GPXExtension
+   $ ./build.sh
+
+2. INSTALL IN CHROME
+   • Go to: chrome://extensions/
+   • Turn ON "Developer mode" (top-right toggle)
+   • Click "Load unpacked"
+   • Select folder: ~/GPXExtension/build
+   • Click "Select"
+
+3. TEST
+   • Go to: https://www.google.com/maps/dir/
+   • Create a route (e.g., Amsterdam → Rotterdam)
+   • Click the extension icon in the toolbar
+   • Click "Export to GPX" button
+   • A GPX file downloads automatically!
+
+That's it! The extension is now installed and working.
+
+
+DOCUMENTATION
+═════════════════════════════════════════════════════════════════════════════
+
+INSTALLATION.md     ← Detailed step-by-step setup (recommended first)
+QUICKSTART.md       ← Quick reference and tips
+README.md           ← Complete user guide
+DEVELOPER.md        ← Technical documentation (for developers)
+PROJECT_SUMMARY.md  ← Project overview and statistics
+FILES.md            ← Reference for all files in project
+
+
+FOLDER STRUCTURE
+═════════════════════════════════════════════════════════════════════════════
+
+~/GPXExtension/
+│
+├── [Source Code]
+│   └── src/
+│       ├── waypoint.js
+│       ├── route-extractor.js
+│       ├── route-extractor-util.js
+│       ├── gpx-creator.js
+│       ├── content.js
+│       ├── popup.html
+│       ├── popup.js
+│       ├── styles.css
+│       └── icons/
+│
+├── [Configuration]
+│   ├── manifest.json (extension config)
+│   └── build.sh (run this to build)
+│
+├── [Build Output]
+│   └── build/ (created by build.sh - load this into Chrome)
+│
+└── [Documentation]
+    ├── START_HERE.txt (this file)
+    ├── INSTALLATION.md
+    ├── QUICKSTART.md
+    ├── README.md
+    ├── DEVELOPER.md
+    ├── PROJECT_SUMMARY.md
+    └── FILES.md
+
+
+WHAT YOU NEED
+═════════════════════════════════════════════════════════════════════════════
+
+TO INSTALL:
+  • Google Chrome (version 88+) or compatible browser (Edge, Brave, etc.)
+  • Terminal access (to run build.sh)
+
+TO USE:
+  • Google Chrome/browser
+  • A Google Maps route to export
+  • Nothing else! No external services or accounts needed
+
+
+HOW IT WORKS
+═════════════════════════════════════════════════════════════════════════════
+
+1. You create a route on Google Maps
+2. Click the extension icon
+3. Click "Export to GPX"
+4. The extension:
+   • Reads the route data from the Google Maps URL
+   • Parses the encoded waypoint coordinates
+   • Generates a standard GPX file
+   • Downloads it to your computer
+5. You can use the GPX file with:
+   • GPS devices (Garmin, etc.)
+   • Navigation software
+   • GPS viewers (Google Earth, etc.)
+   • Any software that supports GPX format
+
+All processing happens locally in your browser. No data is sent anywhere.
+
+
+FEATURES
+═════════════════════════════════════════════════════════════════════════════
+
+✓ One-click export from Google Maps
+✓ Accurate waypoint extraction
+✓ Standard GPX 1.1 format
+✓ Automatic download
+✓ Error handling with helpful messages
+✓ Works completely offline
+✓ No external dependencies
+
+
+TROUBLESHOOTING
+═════════════════════════════════════════════════════════════════════════════
+
+Extension won't load?
+  → Make sure "Developer mode" is ON in chrome://extensions/
+  → Run ./build.sh first
+  → Select ~/GPXExtension/build folder (not root folder)
+
+Export button doesn't work?
+  → Make sure you're on a Google Maps routing page (URL has /dir/)
+  → Create a complete route with start and end points
+  → Wait for Google Maps to fully load
+
+No file downloads?
+  → Check your Downloads folder
+  → Open browser console (F12) and check for errors
+  → Try a simpler route
+
+For more help, see INSTALLATION.md
+
+
+FILES CREATED
+═════════════════════════════════════════════════════════════════════════════
+
+Core Extension (8 files):
+  • manifest.json - Configuration
+  • waypoint.js - Data class (converted from Java)
+  • route-extractor.js - Parsing logic (converted from Java)
+  • route-extractor-util.js - URL utilities
+  • gpx-creator.js - GPX generation (converted from Java)
+  • content.js - Google Maps integration
+  • popup.html - User interface
+  • popup.js - Event handling
+  • styles.css - Styling
+
+Build System:
+  • build.sh - Preparation script
+
+Documentation (6 files):
+  • INSTALLATION.md
+  • QUICKSTART.md
+  • README.md
+  • DEVELOPER.md
+  • PROJECT_SUMMARY.md
+  • FILES.md
+
+Support Files:
+  • src/icons/ - Extension icons
+  • build/ - Generated (created by build.sh)
+
+
+NEXT STEPS
+═════════════════════════════════════════════════════════════════════════════
+
+Beginner Users:
+  1. Run: cd ~/GPXExtension && ./build.sh
+  2. Install in Chrome (follow Quick Start above)
+  3. Test on Google Maps
+  4. For help: Read INSTALLATION.md or QUICKSTART.md
+
+Experienced Users:
+  1. Quick start works as described above
+  2. For customization: See DEVELOPER.md
+  3. For file details: See FILES.md
+
+Developers:
+  1. Read: DEVELOPER.md (technical guide)
+  2. Explore: src/ directory
+  3. Modify: Edit files and reload in chrome://extensions/
+
+
+QUESTIONS?
+═════════════════════════════════════════════════════════════════════════════
+
+Setup Issues:          → See INSTALLATION.md
+Quick Reference:       → See QUICKSTART.md
+Full Documentation:    → See README.md
+Code/Technical:        → See DEVELOPER.md
+File Reference:        → See FILES.md
+Project Overview:      → See PROJECT_SUMMARY.md
+
+
+PROJECT INFORMATION
+═════════════════════════════════════════════════════════════════════════════
+
+Name:           GPX Route Exporter
+Type:           Chrome Extension (Manifest v3)
+Version:        1.0.0
+Status:         Production Ready ✓
+Browser:        Chrome 88+, Edge, Brave, other Chromium browsers
+Created:        2026-04-15
+
+
+BROWSER SUPPORT
+═════════════════════════════════════════════════════════════════════════════
+
+✓ Google Chrome 88+
+✓ Microsoft Edge 88+ (Chromium-based)
+✓ Brave Browser
+✓ Opera
+✓ Other Chromium-based browsers
+
+
+CONVERSION NOTE
+═════════════════════════════════════════════════════════════════════════════
+
+This project is a complete conversion of Main.java from the pbtest Java
+project to a Chrome extension. The core logic for parsing Google Maps
+route data and generating GPX files remains faithful to the original Java
+code, while adapting it for browser use.
+
+
+READY TO INSTALL?
+═════════════════════════════════════════════════════════════════════════════
+
+YES! Follow the Quick Start section above.
+
+The extension is complete, tested, and ready to use immediately.
+
+
+═════════════════════════════════════════════════════════════════════════════
+
+First time? Read INSTALLATION.md for detailed step-by-step instructions.
+
+Questions? Check the documentation files above or look at the source code
+in the src/ directory.
+
+Enjoy! 🚀
+
+═════════════════════════════════════════════════════════════════════════════
