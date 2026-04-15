@@ -61,8 +61,8 @@ function extractRouteInfo(url) {
     // Everything between /dir/ and /@
     const pathSegment = afterDir.substring(0, atIndex);
     
-    // Split by / to get all location names
-    const locationNames = pathSegment.split('/').filter(name => name.length > 0);
+    // Split by / to get all location names, then decode each one
+    const locationNames = pathSegment.split('/').filter(name => name.length > 0).map(name => decodeURIComponent(name));
     
     // Find the last / to get the segment immediately preceding /@
     const lastSlashIndex = pathSegment.lastIndexOf('/');
@@ -71,12 +71,12 @@ function extractRouteInfo(url) {
     if (lastSlashIndex !== -1) {
       // There are intermediate waypoints
       // Get first segment (after /dir/) and last segment (before /@)
-      const firstSegment = pathSegment.substring(0, pathSegment.indexOf('/'));
-      const lastSegment = pathSegment.substring(lastSlashIndex + 1);
+      const firstSegment = decodeURIComponent(pathSegment.substring(0, pathSegment.indexOf('/')));
+      const lastSegment = decodeURIComponent(pathSegment.substring(lastSlashIndex + 1));
       routeName = `${firstSegment}_${lastSegment}`;
     } else {
       // Simple route with just start and end
-      routeName = pathSegment;
+      routeName = decodeURIComponent(pathSegment);
     }
 
     // Extract 'data' parameter - can be in pathname or query string
