@@ -1,7 +1,7 @@
 /**
  * Extract route information from Google Maps URL
  * @param {string} url - The Google Maps URL
- * @returns {object} Object with routeName, locationNames, and data properties, or null if invalid
+ * @returns {object} Object with routeName, locationNames, startCoords, and data properties, or null if invalid
  */
 function extractRouteInfo(url) {
   try {
@@ -25,23 +25,48 @@ function extractRouteInfo(url) {
 
     // Everything between /dir/ and /@
     const pathSegment = afterDir.substring(0, atIndex);
+
+    // Check for double slash (incomplete route - no start point selected)
+    if (pathSegment.startsWith('/')) {
+      return {
+        error: 'No starting point selected. Please select a starting location on Google Maps.'
+      };
+    }
+    
+    // Check if the first segment is coordinates (my location format: lat,lon)
+    let startCoords = null;
+    let locationSegment = pathSegment;
+    const firstSlash = pathSegment.indexOf('/');
+    
+    if (firstSlash !== -1) {
+      const firstSegment = pathSegment.substring(0, firstSlash);
+      const coordMatch = firstSegment.match(/^(-?\d+\.\d+),(-?\d+\.\d+)$/);
+      if (coordMatch) {
+        // Start point is coordinates (my location)
+        startCoords = {
+          lat: parseFloat(coordMatch[1]),
+          lon: parseFloat(coordMatch[2])
+        };
+        locationSegment = pathSegment.substring(firstSlash + 1);
+      }
+    }
     
     // Split by / to get all location names, then decode each one
-    const locationNames = pathSegment.split('/').filter(name => name.length > 0).map(name => decodeURIComponent(name));
+    const locationNames = locationSegment.split('/').filter(name => name.length > 0).map(name => decodeURIComponent(name));
     
     // Find the last / to get the segment immediately preceding /@
-    const lastSlashIndex = pathSegment.lastIndexOf('/');
+    const lastSlashIndex = locationSegment.lastIndexOf('/');
     let routeName;
     
     if (lastSlashIndex !== -1) {
       // There are intermediate waypoints
-      // Get first segment (after /dir/) and last segment (before /@)
-      const firstSegment = decodeURIComponent(pathSegment.substring(0, pathSegment.indexOf('/')));
-      const lastSegment = decodeURIComponent(pathSegment.substring(lastSlashIndex + 1));
+      // Get first and last segments
+      const firstSegment = decodeURIComponent(locationSegment.substring(0, locationSegment.indexOf('/')));
+      const lastSegment = decodeURIComponent(locationSegment.substring(lastSlashIndex + 1));
       routeName = `${firstSegment}_${lastSegment}`;
     } else {
       // Simple route with just start and end
-      routeName = decodeURIComponent(pathSegment);
+      routeName = decodeURIComponent(locationSegment);
     }
 
     // Extract 'data' parameter - can be in pathname or query string
@@ -65,6 +90,7 @@ function extractRouteInfo(url) {
     return {
       routeName: routeName,
       locationNames: locationNames,
+      startCoords: startCoords,
       data: data
     };
   } catch (error) {

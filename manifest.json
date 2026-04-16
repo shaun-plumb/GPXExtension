@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GPX Route Exporter",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Export Google Maps routing results to GPX format",
   "permissions": [
     "activeTab",

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const { routeName, locationNames, data } = result;
+      const { routeName, locationNames, startCoords, data } = result;
 
       // Decode the data parameter
       const decodedData = decodeMapData(data);
@@ -49,11 +49,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // Check if we need to add a "My Location" start waypoint
+      let finalRouteName = routeName;
+      let finalLocationNames = locationNames;
+      
+      if (startCoords) {
+        // Add "My Location" as the first waypoint
+        const myLocationWayPoint = new WayPoint(startCoords.lat, startCoords.lon, false, 'My Location');
+        wayPoints.unshift(myLocationWayPoint);
+        
+        // Prepend "My Location" to location names for correct assignment
+        finalLocationNames = ['My Location', ...locationNames];
+        
+        // Update route name to include "My Location" as start
+        // Format: My Location_lastLocation
+        if (locationNames.length > 0) {
+          finalRouteName = `My Location_${locationNames[locationNames.length - 1]}`;
+        } else {
+          finalRouteName = 'My Location';
+        }
+      }
+
       // Assign location names to non-silent waypoints
-      assignWayPointNames(wayPoints, locationNames);
+      assignWayPointNames(wayPoints, finalLocationNames);
 
       // Create and download GPX
-      createGPX(routeName, wayPoints);
+      createGPX(finalRouteName, wayPoints);
 
       showMessage(`Successfully exported ${wayPoints.length} waypoint(s) to GPX`, 'success');
       statusText.textContent = 'Ready';
